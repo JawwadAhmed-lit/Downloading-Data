@@ -11,24 +11,29 @@ with open(filename) as f:
 # for index,coloumn in enumerate(header):
 #     print(index,coloumn)
 
-    time,highs = [] , []
+    time,highs,lows = [] , []  , []
     for row in reader:
         current_date = datetime.strptime(row[2], '%Y-%m-%d')
         pop = int(row[5])
+        lop = int(row[6])
         time.append(current_date)
-        highs.append(pop)
-#print(highs)
+        highC = ((pop-32)*5//9)
+        lowC = ((lop-32)*5//9)
+        highs.append(highC)
+        lows.append(lowC)
+print(highs)
 
 # data visualistaion for hight temperatures
 plt.style.use('seaborn')
 fig, ax = plt.subplots()
-ax.plot(time,highs,c= 'red')
-
+ax.plot(time,highs,c= 'red', alpha =0.5)
+ax.plot(time,lows,c = 'blue', alpha =0.5)
+ax.fill_between(time, highs,lows , facecolor = 'blue', alpha= 0.1)
 #setting
-ax.set_title("Daily temperature " , fontsize = 24)
+ax.set_title("Daily High and Low temperature " , fontsize = 24)
 ax.set_xlabel('',fontsize = 16)
 fig.autofmt_xdate()
-ax.set_ylabel('HIGH TEMPERATURES (F)', fontsize = 16)
+ax.set_ylabel('HIGH And Low TEMPERATURES (C)', fontsize = 16)
 ax.tick_params(axis ='both', which ='major' , labelsize = 16)
 
 plt.show()
