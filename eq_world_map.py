@@ -16,19 +16,15 @@ with open(readable,'w') as file:
 
 
 all_eq_dict = all_equal['features']
-
+all_eq_dict_title = all_equal['metadata']['title']
 #print(len(all_eq_dict))
 
 mags, longs, lats,hover_texts = [] , [] , [], []
 for eq_data in all_eq_dict:
-    data = eq_data['properties']['mag']
-    long_data = eq_data['geometry']['coordinates'][0]
-    lat_data = eq_data['geometry']['coordinates'][1]
-    title= eq_data['properties']['title']
-    mags.append(data)
-    longs.append(long_data)
-    lats.append(lat_data)
-    hover_texts.append(title)
+    mags.append(eq_data['properties']['mag'])
+    longs.append(eq_data['geometry']['coordinates'][0])
+    lats.append(eq_data['geometry']['coordinates'][1])
+    hover_texts.append(eq_data['properties']['title'])
 # print(mags[:10])
 # print(lats[:5])
 # print(longs[:5])
@@ -49,6 +45,7 @@ data = [{
 }]
 
 # data = [Scattergeo(lon=longs, lat=lats)]
-my_layout = Layout(title='Global Earthquakes')
+
+my_layout = Layout(title=all_eq_dict_title)
 fig = {'data': data, 'layout': my_layout}
 offline.plot(fig, filename='global_earthquakes.html')
